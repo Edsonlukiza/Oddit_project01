@@ -465,8 +465,6 @@ footer{text-align:center;padding:20px;border-top:1px solid #eee;}
 
     <div class="svc-grid">
       <?php foreach ($data['Services'] as $post):
-
-        /* ── map a keyword in the title to an SVG icon path ── */
         $title_lower = strtolower($post['title']);
         if      (str_contains($title_lower, 'web'))      $icon = '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>';
         elseif  (str_contains($title_lower, 'mobile') || str_contains($title_lower, 'app')) $icon = '<rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="#1D9E75"/>';
