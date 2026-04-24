@@ -1,13 +1,11 @@
 <?php
-include __DIR__ . '/../config/db_connect.php';
-include __DIR__ . '/../css/admin-shared.css';
-include __DIR__ . '/../includes/admin-sidebar.php'; 
-
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /authorization/index.php");
+    header("Location: ../authorization/login.php");
     exit();
 }
+
+include __DIR__ . '/../config/db_connect.php';
 
 $errors   = [];
 $email    = $password = '';
@@ -43,61 +41,40 @@ $admin_name = isset($_SESSION['name']) ? htmlspecialchars($_SESSION['name']) : '
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add User — Admin</title>
-  <style>
-    <?php include __DIR__ . '/../css/admin-shared.css'; ?>
-  </style>
+  <link rel="stylesheet" href="../css/admin-shared.css">
 </head>
 <body>
 
-<?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
+<?php $nav_prefix = '../'; include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
 <div class="main">
-  <div class="topbar">
+  <div class="page-header">
     <div>
-      <h1>Add user</h1>
-      <p><?= date('l, d F Y') ?></p>
+      <h1>Add User</h1>
     </div>
-    <a href="../frontend/index.php" target="_blank" rel="noopener noreferrer" class="view-btn">
-      <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-      View site
-    </a>
   </div>
 
   <div class="content">
     <div class="form-card">
+      <h2>Add User</h2>
 
-      <div class="form-card-head">
-        <h2>New user</h2>
-        <p>Create an admin account</p>
-      </div>
-
-      <?php if (isset($errors['db'])): ?>
-        <div class="alert alert-danger"><?= htmlspecialchars($errors['db']) ?></div>
-      <?php endif; ?>
-
-      <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST">
-
-        <div class="field <?= isset($errors['email']) ? 'field-error' : '' ?>">
-          <label>Email address</label>
-          <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" placeholder="user@example.com" autocomplete="off">
-          <?php if (isset($errors['email'])): ?>
-            <span class="field-msg"><?= $errors['email'] ?></span>
-          <?php endif; ?>
+      <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+        <div class="field">
+          <label>Email:</label>
+          <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" placeholder="user@example.com">
+          <div class="field-msg"><?php echo $errors['email'] ?? ''; ?></div>
         </div>
 
-        <div class="field <?= isset($errors['password']) ? 'field-error' : '' ?>">
-          <label>Password</label>
+        <div class="field">
+          <label>Password:</label>
           <input type="password" name="password" placeholder="Min. 6 characters">
-          <?php if (isset($errors['password'])): ?>
-            <span class="field-msg"><?= $errors['password'] ?></span>
-          <?php endif; ?>
+          <div class="field-msg"><?php echo $errors['password'] ?? ''; ?></div>
         </div>
 
         <div class="form-actions">
-          <button type="submit" name="submit" class="btn-primary">Create user</button>
+          <input type="submit" name="submit" value="Create user" class="btn-primary">
           <a href="users.php" class="btn-ghost">Cancel</a>
         </div>
-
       </form>
     </div>
   </div>

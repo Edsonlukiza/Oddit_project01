@@ -1,6 +1,11 @@
 <?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../authorization/login.php");
+    exit();
+}
+
 include('../config/db_connect.php');
-include '../includes/header.php';
 
 $title = '';
 $description = '';
@@ -30,7 +35,6 @@ if (isset($_POST['submit'])) {
         $errors['image'] = 'Please upload an image';
     }
 
-  
     if (!array_filter($errors)) {
         $upload_dir = __DIR__ . '/uploads/';
         $image_name = time() . '_' . basename($_FILES['image']['name']);
@@ -47,12 +51,10 @@ if (isset($_POST['submit'])) {
             $category_id = mysqli_real_escape_string($conn, $category_id);
             $image_name = mysqli_real_escape_string($conn, $image_name); 
 
-            $description = trim($_POST['description']);
-$excerpt = mb_strimwidth($description, 0, 25, '...');
+            $excerpt = mb_strimwidth($description, 0, 25, '...');
 
-$sql = "INSERT INTO posts(title, image, description, excerpt, category_id)
-        VALUES ('$title', '$image_name', '$description', '$excerpt', '$category_id')";
-
+            $sql = "INSERT INTO posts(title, image, description, excerpt, category_id)
+                    VALUES ('$title', '$image_name', '$description', '$excerpt', '$category_id')";
 
             if (mysqli_query($conn, $sql)) {
                 header('Location: index.php');
@@ -67,61 +69,75 @@ $sql = "INSERT INTO posts(title, image, description, excerpt, category_id)
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Post</title>
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/admin-shared.css">
 </head>
 
 <body>
 
-    <h2 class="form-title">Add New Post</h2>
+<?php $nav_prefix = '../'; include '../includes/admin-sidebar.php'; ?>
 
-    <div class="form-container">
-        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" enctype="multipart/form-data" class="form-box">
-
-            
-            <label class="form-label">Enter a Title:</label>
-            <input type="text" name="title" class="form-input" value="<?php echo $title; ?>">
-            <div class="error"><?php echo $errors['title'] ?? ''; ?></div>
-
-            
-            <label class="form-label">Add Image:</label>
-            <input type="file" name="image" class="form-input">
-            <div class="error"><?php echo $errors['image'] ?? ''; ?></div>
-
-            
-            <label class="form-label">Description:</label>
-            <textarea name="description" rows="4"
-                class="form-input"><?php echo htmlspecialchars($description); ?></textarea>
-            <div class="error"><?php echo $errors['description'] ?? ''; ?></div>
-
-          
-            <label class="form-label">Choose Category:</label>
-            <select name="category_id" class="form-input" required>
-                <option value="">-- Select Category --</option>
-                <?php
-                $category_sql = "SELECT * FROM post_categories";
-                $category_result = mysqli_query($conn, $category_sql);
-                while ($cat = mysqli_fetch_assoc($category_result)) {
-                    $selected = ($category_id == $cat['id']) ? 'selected' : '';
-                    echo "<option value=\"" . $cat['id'] . "\" $selected>" . htmlspecialchars($cat['name']) . "</option>";
-                }
-                ?>
-            </select>
-            <div class="error"><?php echo $errors['category'] ?? ''; ?></div>
-
-            
-            <div class="btn-group">
-                <input type="submit" name="submit" value="Submit" class="btn btn-submit">
-                <a href="index.php" class="btn cancel-btn">Cancel</a>
-            </div>
-        </form>
+<div class="main">
+  <div class="page-header">
+    <div>
+      <h1>Add New Post</h1>
     </div>
+  </div>
+
+  <div class="content">
+    <div class="form-card">
+      <h2>Add New Post</h2>
+
+      <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" enctype="multipart/form-data">
+            
+        <div class="field">
+          <label>Title:</label>
+          <input type="text" name="title" value="<?php echo $title; ?>">
+          <div class="field-msg"><?php echo $errors['title'] ?? ''; ?></div>
+        </div>
+
+        <div class="field">
+          <label>Image:</label>
+          <input type="file" name="image">
+          <div class="field-msg"><?php echo $errors['image'] ?? ''; ?></div>
+        </div>
+
+        <div class="field">
+          <label>Description:</label>
+          <textarea name="description" rows="4"><?php echo htmlspecialchars($description); ?></textarea>
+          <div class="field-msg"><?php echo $errors['description'] ?? ''; ?></div>
+        </div>
+
+        <div class="field">
+          <label>Category:</label>
+          <select name="category_id">
+            <option value="">-- Select Category --</option>
+            <?php
+            $category_sql = "SELECT * FROM post_categories";
+            $category_result = mysqli_query($conn, $category_sql);
+            while ($cat = mysqli_fetch_assoc($category_result)) {
+                $selected = ($category_id == $cat['id']) ? 'selected' : '';
+                echo "<option value=\"" . $cat['id'] . "\" $selected>" . htmlspecialchars($cat['name']) . "</option>";
+            }
+            ?>
+          </select>
+          <div class="field-msg"><?php echo $errors['category'] ?? ''; ?></div>
+        </div>
+
+        <div class="form-actions">
+          <input type="submit" name="submit" value="Submit" class="btn-primary">
+          <a href="index.php" class="btn-ghost">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 </body>
 

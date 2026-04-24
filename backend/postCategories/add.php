@@ -1,7 +1,11 @@
 <?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../authorization/login.php");
+    exit();
+}
+
 include('../config/db_connect.php');
-include __DIR__ . '/../css/admin-shared.css';
-include __DIR__ . '/../includes/admin-sidebar.php'; 
 
 $name = '';
 $errors = ['name' => ''];
@@ -28,22 +32,40 @@ if (isset($_POST['submit'])) {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add Post Category</title>
-  <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="../css/admin-shared.css">
 </head>
 <body>
 
-  <div class="form-container">
-    <h1 class="form-title">Add Post Category</h1>
+<?php $nav_prefix = '../'; include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
-    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST" class="form-box">
-      <label for="name">Enter name:</label>
-      <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" class="form-input">
-      <div class="error-text"><?php echo $errors['name']; ?></div>
-
-      <input type="submit" name="submit" value="Submit" class="submit-btn">
-    </form>
+<div class="main">
+  <div class="page-header">
+    <div>
+      <h1>Add Post Category</h1>
+    </div>
   </div>
+
+  <div class="content">
+    <div class="form-card">
+      <h2>Add Post Category</h2>
+
+      <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+        <div class="field">
+          <label>Name:</label>
+          <input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>">
+          <div class="field-msg"><?php echo $errors['name']; ?></div>
+        </div>
+
+        <div class="form-actions">
+          <input type="submit" name="submit" value="Submit" class="btn-primary">
+          <a href="post_categories.php" class="btn-ghost">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

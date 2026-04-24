@@ -1,6 +1,7 @@
 <?php
 $admin_name  = isset($_SESSION['name']) ? htmlspecialchars($_SESSION['name']) : 'Admin';
-$initials    = strtoupper(substr($admin_name, 0, 1));
+$initials    = strtoupper(substr($admin_name, 0, 1)) . (strpos($admin_name, ' ') !== false
+              ? strtoupper(substr(strstr($admin_name, ' '), 1, 1)) : '');
 $current_dir  = basename(dirname($_SERVER['PHP_SELF']));
 $current_file = basename($_SERVER['PHP_SELF']);
 $p = $nav_prefix ?? '../';

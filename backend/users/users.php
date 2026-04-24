@@ -6,8 +6,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 include __DIR__ . '/../config/db_connect.php';
-$nav_prefix = '../';                           
-include __DIR__ . '/../includes/admin-sidebar.php';
 
 if (isset($_GET['delete'])) {
     $id = $_GET['id'] ?? null;
@@ -36,13 +34,11 @@ $initials   = strtoupper(substr($admin_name, 0, 1));
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Users — Admin</title>
-  <style>
-    <?php include __DIR__ . '/../css/admin-shared.css'; ?>
-  </style>
+  <link rel="stylesheet" href="../css/admin-shared.css">
 </head>
 <body>
 
-<?php include __DIR__ . '/../includes/admin-sidebar.php'; ?>
+<?php $nav_prefix = '../'; include __DIR__ . '/../includes/admin-sidebar.php'; ?>
 
 <div class="main">
   <div class="topbar">

@@ -8,8 +8,8 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 include __DIR__ . '/config/db_connect.php';
-$nav_prefix = '';                              
-include __DIR__ . '/includes/admin-sidebar.php';
+                            
+
 
 $total_users      = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS n FROM users"))['n'];
 $total_categories = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS n FROM post_categories"))['n'];
@@ -26,129 +26,8 @@ $today      = date('l, d F Y');
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="css/admin-shared.css">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #f4f5f7;
-      min-height: 100vh;
-      display: flex;
-    }
-
-    /* ── SIDEBAR ── */
-    .sidebar {
-      width: 230px;
-      flex-shrink: 0;
-      background: #111318;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-    }
-
-    .sidebar-logo {
-      padding: 22px 18px 18px;
-      border-bottom: 0.5px solid rgba(255,255,255,.08);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo-dot {
-      width: 30px; height: 30px;
-      border-radius: 8px;
-      background: #1D9E75;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .logo-dot svg {
-      width: 15px; height: 15px;
-      stroke: #fff; fill: none;
-      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-    }
-
-    .logo-name { font-size: 14px; font-weight: 600; color: #fff; }
-
-    .nav-section {
-      padding: 18px 16px 4px;
-      font-size: 10px;
-      letter-spacing: 1.8px;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.3);
-    }
-
-    .nav-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 9px 14px; margin: 2px 8px;
-      border-radius: 8px;
-      font-size: 13px; color: rgba(255,255,255,.55);
-      cursor: pointer; text-decoration: none;
-      transition: background .15s, color .15s;
-    }
-
-    .nav-item:hover      { background: rgba(255,255,255,.07); color: #fff; }
-    .nav-item.active     { background: #1D9E75; color: #fff; }
-
-    .nav-item svg {
-      width: 16px; height: 16px;
-      stroke: currentColor; fill: none;
-      stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
-      flex-shrink: 0;
-    }
-
-    .sidebar-bottom {
-      margin-top: auto;
-      padding: 12px;
-      border-top: 0.5px solid rgba(255,255,255,.08);
-    }
-
-    .user-row { display: flex; align-items: center; gap: 10px; padding: 8px; }
-
-    .avatar {
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      background: #1D9E75;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 12px; font-weight: 600; color: #fff;
-      flex-shrink: 0;
-    }
-
-    .user-meta { flex: 1; min-width: 0; }
-    .user-name { font-size: 13px; font-weight: 500; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .user-role { font-size: 11px; color: rgba(255,255,255,.35); }
-
-    /* ── MAIN ── */
-    .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-
-    .topbar {
-      background: #fff;
-      border-bottom: 0.5px solid #e5e7eb;
-      padding: 16px 28px;
-      display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 10;
-    }
-
-    .topbar h1  { font-size: 17px; font-weight: 600; color: #111; margin-bottom: 2px; }
-    .topbar p   { font-size: 12px; color: #999; }
-
-    .view-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 12px; font-weight: 500;
-      color: #1D9E75; border: 0.5px solid #1D9E75;
-      border-radius: 6px; padding: 7px 14px;
-      text-decoration: none; background: transparent;
-      transition: background .15s, color .15s;
-    }
-    .view-btn:hover { background: #1D9E75; color: #fff; }
-    .view-btn svg {
-      width: 12px; height: 12px;
-      stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-    }
-
     /* ── CONTENT ── */
     .content { padding: 28px; flex: 1; }
 
@@ -270,68 +149,15 @@ $today      = date('l, d F Y');
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      body    { flex-direction: column; }
-      .sidebar {
-        width: 100%; height: auto; flex-direction: row;
-        flex-wrap: wrap; position: static;
-        padding: 10px; gap: 4px;
-      }
-      .sidebar-logo  { padding: 8px 10px; border-bottom: none; flex: 1; }
-      .nav-section   { display: none; }
-      .nav-item      { padding: 8px 10px; margin: 0; }
-      .nav-item span { display: none; }
-      .sidebar-bottom{ display: none; }
       .panels-grid   { grid-template-columns: 1fr; }
-      .topbar        { flex-wrap: wrap; gap: 10px; }
     }
   </style>
 </head>
 <body>
 
+<?php $nav_prefix = ''; ?>
 <!-- SIDEBAR -->
-<aside class="sidebar">
-  <div class="sidebar-logo">
-    <div class="logo-dot">
-      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-    </div>
-    <span class="logo-name">Admin Panel</span>
-  </div>
-
-  <span class="nav-section">Main</span>
-
-  <a href="index.php" class="nav-item active">
-    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-    <span>Dashboard</span>
-  </a>
-  <a href="users/users.php" class="nav-item">
-    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    <span>Users</span>
-  </a>
-  <a href="postCategories/post_categories.php" class="nav-item">
-    <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
-    <span>Categories</span>
-  </a>
-  <a href="posts/index.php" class="nav-item">
-    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-    <span>Posts</span>
-  </a>
-
-  <span class="nav-section">System</span>
-  <a href="../authorization/login.php" class="nav-item">
-    <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-    <span>Logout</span>
-  </a>
-
-  <div class="sidebar-bottom">
-    <div class="user-row">
-      <div class="avatar"><?= $initials ?></div>
-      <div class="user-meta">
-        <div class="user-name"><?= $admin_name ?></div>
-        <div class="user-role">Super admin</div>
-      </div>
-    </div>
-  </div>
-</aside>
+<?php include 'includes/admin-sidebar.php'; ?>
 
 <!-- MAIN -->
 <div class="main">
@@ -341,7 +167,7 @@ $today      = date('l, d F Y');
       <h1>Dashboard</h1>
       <p><?= $today ?></p>
     </div>
-    <a href="../frontend/index.php" target="_blank" rel="noopener noreferrer" class="view-btn">
+    <a href="../index.php" target="_blank" rel="noopener noreferrer" class="view-btn">
       <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       View site
     </a>
