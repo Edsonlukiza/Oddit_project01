@@ -1,7 +1,5 @@
 <?php
 include __DIR__ . '/../config/db_connect.php';
-include __DIR__ . '/../includes/admin-sidebar.php';
-
 $errors = array('image' => '');
 
 

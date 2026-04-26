@@ -16,7 +16,6 @@ function nav_active(string $dir, string $file = ''): string {
 
 $is_root   = ($p === '');
 $logout    = $is_root ? '../authorization/login.php'   : '../../authorization/login.php';
-$view_site = $is_root ? '../frontend/index.php'        : '../../frontend/index.php';
 ?>
 
 <aside class="sidebar">
@@ -60,11 +59,6 @@ $view_site = $is_root ? '../frontend/index.php'        : '../../frontend/index.p
   </a>
 
   <span class="nav-section">System</span>
-
-  <a href="<?= $view_site ?>" target="_blank" rel="noopener noreferrer" class="nav-item">
-    <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-    <span>View site</span>
-  </a>
 
   <a href="<?= $logout ?>" class="nav-item">
     <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
