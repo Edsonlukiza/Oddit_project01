@@ -41,9 +41,14 @@ body {
   padding: 9px 14px; margin: 2px 8px; border-radius: 8px;
   font-size: 13px; color: rgba(255,255,255,.55);
   text-decoration: none; transition: background .15s, color .15s;
+  position: relative;
 }
 .nav-item:hover  { background: rgba(255,255,255,.07); color: #fff; }
 .nav-item.active { background: #1D9E75; color: #fff; }
+.nav-item.active span {
+  border-bottom: 2px solid #fff;
+  padding-bottom: 2px;
+}
 .nav-item svg {
   width: 16px; height: 16px;
   stroke: currentColor; fill: none;
