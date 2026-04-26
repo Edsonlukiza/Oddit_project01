@@ -41,7 +41,7 @@ $post = mysqli_fetch_assoc($result);
     </p>
 
     <div class="image-wrapper">
-        <img src="/blog/backend/posts/uploads/<?php echo !empty($post['image']) ? htmlspecialchars($post['image']) : 'default.jpg'; ?>" alt="Post Image">
+        <img src="/Oddit_project01/backend/posts/uploads/<?php echo !empty($post['image']) ? htmlspecialchars($post['image']) : 'default.jpg'; ?>" alt="Post Image">
     </div>
 
     <div class="post-content">

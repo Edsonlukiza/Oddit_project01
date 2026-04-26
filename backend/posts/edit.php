@@ -1,6 +1,6 @@
 <?php
 include __DIR__ . '/../config/db_connect.php';
-include '../includes/header.php';
+include __DIR__ . '/../includes/admin-sidebar.php';
 
 $errors = array('image' => '');
 
@@ -42,34 +42,52 @@ $sql = "UPDATE posts SET title = '$title', description = '$description', excerpt
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Edit Post</title>
-  <link rel="stylesheet" href="../css/index.css">
+  <link rel="stylesheet" href="../css/admin-shared.css">
 </head>
 
 <body>
 
-  <h2 class="form-title">Edit a Post</h2>
+<?php $nav_prefix = '../'; include '../includes/admin-sidebar.php'; ?>
 
-  <div class="form-container">
-    <form method="POST" enctype="multipart/form-data" class="form-box">
-
-      <label class="form-label">Title:</label>
-      <input type="text" name="title" class="form-input" value="<?php echo htmlspecialchars($post['title']); ?>" required>
-
-      <label class="form-label">Add Image:</label>
-      <input type="file" name="image" class="form-input">
-      <div class="error"><?php echo $errors['image'] ?? ''; ?></div>
-
-      <label class="form-label">Description:</label>
-      <textarea name="description" rows="5" class="form-input"><?php echo htmlspecialchars($post['description']); ?></textarea>
-
-      <div class="btn-group">
-        <input type="submit" name="submit" value="Update Post" class="btn btn-submit">
-        <a href="index.php" class="btn cancel-btn">Cancel</a>
-      </div>
-
-    </form>
+<div class="main">
+  <div class="page-header">
+    <div>
+      <h1>Edit Post</h1>
+    </div>
   </div>
+
+  <div class="content">
+    <div class="form-card">
+      <h2>Edit Post</h2>
+
+      <form method="POST" enctype="multipart/form-data">
+
+        <div class="field">
+          <label>Title:</label>
+          <input type="text" name="title" value="<?php echo htmlspecialchars($post['title']); ?>" required>
+        </div>
+
+        <div class="field">
+          <label>Image:</label>
+          <input type="file" name="image">
+          <div class="field-msg"><?php echo $errors['image'] ?? ''; ?></div>
+        </div>
+
+        <div class="field">
+          <label>Description:</label>
+          <textarea name="description" rows="4" required><?php echo htmlspecialchars($post['description']); ?></textarea>
+        </div>
+
+        <div class="form-actions">
+          <input type="submit" name="submit" value="Update Post" class="btn-primary">
+          <a href="index.php" class="btn-ghost">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 </body>
 

@@ -77,7 +77,7 @@ mysqli_close($conn);
               <td><?php echo nl2br(htmlspecialchars($post['description'])); ?></td>
               <td>
                 <?php if (!empty($post['image'])): ?>
-                  <img src="<?php echo htmlspecialchars($post['image']); ?>" alt="Post Image" style="max-width: 150px;">
+                  <img src="uploads/<?php echo htmlspecialchars($post['image']); ?>" alt="Post Image" style="max-width: 150px;">
                 <?php else: ?>
                   No image
                 <?php endif; ?>

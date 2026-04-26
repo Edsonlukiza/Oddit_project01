@@ -5,7 +5,8 @@ include __DIR__ . '/backend/config/db_connect.php';
 $data = [
   'Home' => [],
   'About' => [],
-  'Services' => []
+  'Service' => [],
+  'Contact' => []
 ];
 
 $sql = "SELECT posts.*, post_categories.name AS category_name
@@ -375,11 +376,18 @@ footer{text-align:center;padding:20px;border-top:1px solid #eee;}
     <p>Modern web and mobile systems designed to grow your business.</p>
 
     <div class="hero-stats">
-      <div class="stat"><strong>120+</strong><small>Projects</small></div>
-      <div class="stat-div"></div>
-      <div class="stat"><strong>8 yrs</strong><small>Experience</small></div>
-      <div class="stat-div"></div>
-      <div class="stat"><strong>98%</strong><small>Satisfaction</small></div>
+      <?php
+      $stats = include __DIR__ . '/backend/config/stats.php';
+      foreach ($stats as $index => $stat):
+      ?>
+        <?php if ($index > 0): ?>
+          <div class="stat-div"></div>
+        <?php endif; ?>
+        <div class="stat">
+          <strong><?= htmlspecialchars($stat['number']) ?></strong>
+          <small><?= htmlspecialchars($stat['label']) ?></small>
+        </div>
+      <?php endforeach; ?>
     </div>
 
     <div class="hero-ctas">
@@ -459,12 +467,12 @@ footer{text-align:center;padding:20px;border-top:1px solid #eee;}
     <p class="section-eyebrow">What we do</p>
     <h2>Our services</h2>
 
-    <?php if (empty($data['Services'])): ?>
+    <?php if (empty($data['Service'])): ?>
       <p style="color:#888;">No services added yet.</p>
     <?php else: ?>
 
     <div class="svc-grid">
-      <?php foreach ($data['Services'] as $post):
+      <?php foreach ($data['Service'] as $post):
         $title_lower = strtolower($post['title']);
         if      (str_contains($title_lower, 'web'))      $icon = '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>';
         elseif  (str_contains($title_lower, 'mobile') || str_contains($title_lower, 'app')) $icon = '<rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="#1D9E75"/>';
@@ -481,13 +489,15 @@ footer{text-align:center;padding:20px;border-top:1px solid #eee;}
           </div>
           <div class="svc-name"><?= htmlspecialchars($post['title']) ?></div>
           <div class="svc-desc"><?= htmlspecialchars($post['excerpt']) ?></div>
-          <a href="post.php?category=Services&id=<?= (int)$post['id'] ?>" class="svc-btn">
+          <a href="post.php?category=Service&id=<?= (int)$post['id'] ?>" class="svc-btn">
             Read more <span class="arr">→</span>
           </a>
         </div>
       <?php endforeach; ?>
     </div>
     <?php endif; ?>
+
+
 
   </div>
 </div>

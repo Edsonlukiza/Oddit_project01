@@ -53,6 +53,12 @@ $view_site = $is_root ? '../frontend/index.php'        : '../../frontend/index.p
     <span>Posts</span>
   </a>
 
+  <a href="<?= $p ?>stats/index.php"
+     class="nav-item <?= nav_active('stats') ?>">
+    <svg viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"/><line x1="7" y1="3" x2="17" y2="3"/><path d="M9 12v5M12 12v5M15 12v5"/></svg>
+    <span>Hero Stats</span>
+  </a>
+
   <span class="nav-section">System</span>
 
   <a href="<?= $view_site ?>" target="_blank" rel="noopener noreferrer" class="nav-item">

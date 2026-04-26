@@ -10,9 +10,10 @@ $query = "SELECT posts.*, post_categories.name AS section
 $result = mysqli_query($conn, $query);
 
 $sections = [
-  'home' => [],
-  'about' => [],
-  'services' => []
+  'Home' => [],
+  'About' => [],
+  'Service' => [],
+  'Contact' => [],
 ];
 
 while ($row = mysqli_fetch_assoc($result)) {
